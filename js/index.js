@@ -44,6 +44,13 @@
       if ($xhr2.status !== 200) {
         return;
       }
+      const randomCardRequest = function(compHand) {
+        const randomCardIndex = Math.floor(Math.random() * compHand.length);
+        const value = compHand[randomCardIndex].value;
+
+        Materialize.toast(`Do you have a ${value}?`, 6000);
+      };
+
       console.log(data2.remaining);
       console.log(data2.deck_id);
 
@@ -55,7 +62,7 @@
           image: computerCard.image
         };
       });
-
+      // randomCardRequest(computerCards);
       console.log(computerCards);
       for (const computerCard of computerCards) {
         const $span = $('#computerHand');
@@ -79,7 +86,7 @@
           // Might need while loops for when the computer to continue going. No click event will trigger this.
         }
         else if (player === 'player2') {
-          // The user will click on the card that they have that matches. This will trigger the high level click event and this time the user will be the computer. It will run the logic accordingly: take both cards from the corresponding hands add a point for the computer and the computer will go again. No player switch. 
+          // The user will click on the card that they have that matches. This will trigger the high level click event and this time the user will be the computer. It will run the logic accordingly: take both cards from the corresponding hands add a point for the computer and the computer will go again. No player switch.
           // randomCardRequest fn -- Randomly select another card and toast again.
           // Go Fish! fn
           // Event listener for Go Fish! button will trigger if the user has no matches. The click will -- dealCard -- deal a card to the computer.
