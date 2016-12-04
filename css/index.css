@@ -1,0 +1,83 @@
+#computerHand {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  /*height: 100vh;*/
+  justify-content: center;
+  height: auto;
+}
+
+#userHand {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  /*height: 100vh;*/
+  justify-content: center;
+  height: auto;
+}
+
+#user {
+  /*height: 33%;*/
+  margin-top: 50px;
+}
+
+#computer {
+  /*height: 33%;*/
+  margin-bottom: 50px;
+}
+
+#game {
+  height: auto;
+  position: relative;
+}
+
+#goFish {
+  background-color: coral;
+  border: 5px groove darkorange;
+  border-radius: 50%;
+  border-style: groove;
+  height: 300px;
+  position: absolute;
+  right: 300px;
+  top: 10px;
+  width: 300px;
+}
+
+#deck {
+  border-radius: 30px;
+  height: 314px;
+  position: relative;
+  left: 100px;
+  width: 226px;
+}
+
+.imgCardBack {
+  border-radius: 30px;
+  height: 314px;
+  width: 226px;
+}
+/*.imgCard {
+  height: 100px;
+}*/
+
+.score {
+  border: 1px solid darkorange;
+  display: inline-block;
+  margin-left: 100px;
+}
+
+.player {
+  border: 1px solid darkorange;
+  display: inline-block;
+  margin-left: 170px;
+}
+
+body {
+  background: url("../images/ocean_background.jpg");
+  background-size: cover;
+  /*height: 100vh;*/
+}
+
+* {
+  box-sizing: border-box;
+}
