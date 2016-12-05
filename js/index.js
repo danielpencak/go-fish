@@ -82,6 +82,61 @@
         }
       };
 
+      const noHandDeal = function() {
+        if (userCards.length === 0) {
+          const $xhr4 = $.ajax({
+            method: 'GET',
+            url:
+            `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=${computerCards.length}`,
+            dataType: 'json'
+          });
+
+          $xhr4.done((data4) => {
+            if ($xhr4.status !== 200) {
+              return;
+            }
+            const drawCards = data4.cards.map((card) => {
+              return {
+                value: card.value,
+                image: card.image
+              };
+            });
+            checkOwnHandForPairs(userCards);
+            renderUserCards();
+          });
+
+          $xhr4.fail((err) => {
+            console.log(err);
+          });
+        }
+        else if (computerCards.length === 0) {
+          const $xhr5 = $.ajax({
+            method: 'GET',
+            url:
+            `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=${userCards.length}`,
+            dataType: 'json'
+          });
+
+          $xhr5.done((data5) => {
+            if ($xhr5.status !== 200) {
+              return;
+            }
+            const drawCards = data5.cards.map((card) => {
+              return {
+                value: card.value,
+                image: card.image
+              };
+            });
+            checkOwnHandForPairs(computerCards);
+            renderComputerCards();
+          });
+
+          $xhr5.fail((err) => {
+            console.log(err);
+          });
+        }
+      };
+
       const checkForPairsOnRequest = function(hand, cardRequest) {
         const userHandFiltered = hand.filter((card) => {
           return card.value !== cardRequest.value;
