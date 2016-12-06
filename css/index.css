@@ -1,4 +1,4 @@
-#computerHand {
+#computerCards {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
@@ -7,7 +7,7 @@
   height: auto;
 }
 
-#userHand {
+#userCards {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
