@@ -1,10 +1,12 @@
 (function() {
   'use strict';
 
+  let computerCardRequest = {};
   let userScore = 0;
   let computerScore = 0;
   let userCards =[];
   let computerCards = [];
+  let remainingCardsInDeck = 52;
 
   const $xhr = $.ajax({
     method: 'GET',
@@ -17,10 +19,10 @@
     if ($xhr.status !== 200) {
       return;
     }
-    let remainingCardsInDeck = data.remaining;
+    remainingCardsInDeck -= 5;
     const deckID = data.deck_id;
 
-    console.log(deckID);
+    // console.log(deckID);
     userCards = data.cards.map((userCard) => {
       return {
         value: userCard.value,
@@ -48,6 +50,7 @@
         return;
       }
       let player = 'player1';
+      remainingCardsInDeck -= 5;
       computerCards = data2.cards.map((computerCard) => {
         return {
           value: computerCard.value,
@@ -55,12 +58,50 @@
         };
       });
 
-      const randomCardRequest = function(hand) {
-        const randomCardIndex = Math.floor(Math.random() * hand.length);
-        const value = hand[randomCardIndex].value;
+      const checkForGameEnd = function() {
+        console.log('Hello');
+        if (remainingCardsInDeck === 0) {
+          const $spanComputer = $('#computerCards');
+          const $spanUser = $('#userCards');
+          // const $spanCardDeck = $('#cardDeck');
+          $spanComputer.empty();
+          $spanUser.empty();
+          // $spanCardDeck.empty();
+          if (player === 'player2') {
+            userScore += computerCards.length;
+            $('#userScore').text(`Pair: ${userScore}`);
+          }
+          else if (player === 'player1') {
+            computerScore += userCards.length;
+            $('#computerScore').text(`Pair: ${userScore}`);
+          }
+          if (userScore > computerScore) {
+            Materialize.toast('Congratulations! You won!', 6000);
+          }
+          else if (userScore < computerScore) {
+            Materialize.toast('Sorry. You lost. Try again.', 6000);
+          }
+        }
 
-        Materialize.toast(`Do you have a ${value}?`, 6000);
+        return;
       };
+
+      const randomCardRequest = function() {
+        const randomCardIndex = Math.floor(Math.random() * computerCards.length);
+        const requestCardComputer = {
+          value: computerCards[randomCardIndex].value,
+          image: computerCards[randomCardIndex].image
+        }
+        Materialize.toast(`Do you have a ${requestCardComputer.value}?`, 6000);
+
+        return requestCardComputer;
+      };
+
+      // const checkPlayer = function() {
+      //   if (player === 'player2') {
+      //      computerCardRequest = randomCardRequest();
+      //   }
+      // };
 
       // const renderDrawCard = function(hand, drawCard) {
       //   const $span = $(`#${hand}`);
@@ -114,12 +155,12 @@
       };
 
       const checkForPairsOnDraw = function(hand, cardCompare) {
-        console.log(cardCompare[0]);
-        console.log(hand);
+        // console.log(cardCompare[0]);
+        // console.log(hand);
         const handFiltered = hand.filter((card) => {
           return card.value !== cardCompare[0].value;
         });
-        console.log(handFiltered);
+        // console.log(handFiltered);
         if (handFiltered.length === hand.length) {
           hand.push(cardCompare[0]);
           renderUserCards();
@@ -140,20 +181,38 @@
             computerCards = handFiltered;
             renderComputerCards();
           }
-          console.log(hand);
+          // console.log(hand);
           // return hand;
         }
         // renderDrawCardToComputerHand();
       };
 
-      const goFish = function(hand) {
+      const switchPlayer = function() {
+        checkForGameEnd();
+        console.log('player before switch', player);
         if (player === 'player1') {
           player = 'player2';
+          computerCardRequest = randomCardRequest()
+          console.log('player after switch', player);
         }
         else if (player === 'player2') {
           player = 'player1';
+          console.log('player after switch', player);
         }
-        console.log(deckID);
+      };
+
+      const goFish = ((hand, callback) => {
+        console.log('callback', callback);
+        // console.log('player before switch', player);
+        // if (player === 'player1') {
+        //   player = 'player2';
+        //   console.log('player after switch', player);
+        // }
+        // else if (player === 'player2') {
+        //   player = 'player1';
+        //   console.log('player after switch', player);
+        // }
+        // console.log(deckID);
         const $xhr3 = $.ajax({
           method: 'GET',
           url:
@@ -165,17 +224,22 @@
           if ($xhr3.status !== 200) {
             return;
           }
+          console.log('xhrDone', player);
+          remainingCardsInDeck -= 1;
+          // checkForGameEnd();
+          callback();
           const drawCard = data3.cards.map((card) => {
             return {
               value: card.value,
               image: card.image
             };
           });
-          console.log(drawCard);
-          console.log(hand === userCards);
+          // console.log(drawCard);
+          // console.log(remainingCardsInDeck);
+          // console.log(hand === userCards);
           checkForPairsOnDraw(hand, drawCard);
-          console.log(hand);
-          return;
+          // console.log(hand);
+
           // renderComputerCards();
           // renderUserCards();
         });
@@ -183,14 +247,14 @@
         $xhr3.fail((err) => {
           console.log(err);
         });
-      };
+      });
 
       const checkOwnHandForPairs = function(hand) {
         const handValues = hand.map((card) => {
           return card.value;
         });
 
-        console.log(hand);
+        // console.log(hand);
 
         const cardsFound = {};
 
@@ -227,7 +291,7 @@
           return b - a;
         });
 
-        console.log(sortCardsToDelete);
+        // console.log(sortCardsToDelete);
         for (const cardToDelete of sortCardsToDelete) {
           hand.splice(cardToDelete, 1);
         }
@@ -243,7 +307,7 @@
         renderComputerCards();
       };
 
-      const noHandDeal = function() {
+      const noHandDeal = ((callback) => {
         if (userCards.length === 0) {
           const $xhr4 = $.ajax({
             method: 'GET',
@@ -256,13 +320,16 @@
             if ($xhr4.status !== 200) {
               return;
             }
+            remainingCardsInDeck -= computerCards.length;
+            // checkForGameEnd();
+            callback();
             userCards = data4.cards.map((card) => {
               return {
                 value: card.value,
                 image: card.image
               };
             });
-
+            // console.log(userCards);
             checkOwnHandForPairs(userCards);
             renderUserCards();
           });
@@ -283,6 +350,9 @@
             if ($xhr5.status !== 200) {
               return;
             }
+            remainingCardsInDeck -= userCards.length;
+            // checkForGameEnd();
+            callback();
             computerCards = data5.cards.map((card) => {
               return {
                 value: card.value,
@@ -298,48 +368,48 @@
             console.log(err);
           });
         }
-      };
+      });
 
       const checkForPairsOnRequest = function(hand, cardRequest) {
-        if (hand === userCards) {
-          const computerHandFiltered = computerCards.filter((card) => {
-            return card.value !== cardRequest.value;
-          });
+        // if (hand === userCards) {
+        //   const computerHandFiltered = computerCards.filter((card) => {
+        //     return card.value !== cardRequest.value;
+        //   });
+        //   const userHandFiltered = userCards.filter((card) => {
+        //     return card.value !== cardRequest.value;
+        //   });
+        //   // if (userHandFiltered.length === hand.length) {
+        //   //   $('#goFish').on('click', () => {
+        //   //     goFish(computerCards, switchPlayer);
+        //   //   });
+        //   // }
+        //   if (userHandFiltered.length !== hand.length){
+        //     userCards = userHandFiltered;
+        //     computerCards = computerHandFiltered;
+        //     renderComputerCards();
+        //     renderUserCards();
+        //     computerScore += 1;
+        //     $('#computerScore').text(`Pair: ${computerScore}`);
+        //   }
+        // }
+        if (hand === computerCards) {
           const userHandFiltered = userCards.filter((card) => {
             return card.value !== cardRequest.value;
           });
-          if (userHandFiltered.length === hand.length) {
-            $('#goFish').on('click', () => {
-              goFish(computerCards);
-            });
-          }
-          else {
-            userCards = userHandFiltered;
-            computerCards = computerHandFiltered;
-            computerScore += 1;
-            $('#computerScore').text(`Pair: ${computerScore}`);
-          }
-        }
-        else if (hand === computerCards) {
-          const userHandFiltered = userCards.filter((card) => {
-            return card.value !== cardRequest.value;
-          });
-          console.log(userHandFiltered.length);
-          console.log(userCards.length);
+          // console.log(userHandFiltered.length);
+          // console.log(userCards.length);
           const computerHandFiltered = computerCards.filter((card) => {
             return card.value !== cardRequest.value;
           });
           if (computerHandFiltered.length === computerCards.length) {
-            goFish(userCards);
-            console.log(userCards);
-            // renderComputerCards();
-            // renderUserCards();
+            goFish(userCards, switchPlayer);
+            // console.log(userCards);
           }
           else {
             userCards = userHandFiltered;
-            console.log(userCards);
+            // console.log(userCards);
             computerCards = computerHandFiltered;
-            console.log(computerCards);
+            // console.log(computerCards);
             userScore += 1;
             $('#userScore').text(`Pair: ${userScore}`);
             renderComputerCards();
@@ -365,26 +435,25 @@
       checkOwnHandForPairs(computerCards);
       checkOwnHandForPairs(userCards);
 
-      $('#goFish').off('click', () => {
-        goFish(computerCards);
-      });
+      // console.log(remainingCardsInDeck);
 
-      $('.playerCard').on('click', (event) => {
+      $('#goFish').on('click', () => {
+        goFish(computerCards, switchPlayer);
+      });
+      $('#userCards').on('click', '.playerCard', (event) => {
+        // $('#goFish').off('click', () => {
+        //   goFish(computerCards, switchPlayer);
+        // });
+        console.log('currentplayer', player);
         if (player === 'player1') {
-          if (remainingCardsInDeck === 0) {
-            if (userScore > computerScore) {
-              Materialize.toast('Congratulations! You won!', 6000);
-            }
-            if (userScore < computerScore) {
-              Materialize.toast('Sorry. You lost. Try again.', 6000);
-            }
-          }
+
           // console.log(event.target.alt);
           const requestCardUser = {
             image: event.target.src,
             value: event.target.alt
           }
-
+          console.log(`${player} clicked on ${requestCardUser.value}`)
+          // console.log(data.remaining);
           // console.log(requestCard.image);
           // Check for pairs fn
           // Check if card clicked by user matches a card in computer's hand.
@@ -393,43 +462,63 @@
           // If so, if the card matches up with the card requested from the computer the user will go again.
           // If there is a pair but not the same card the user requested or there is no pair at all the player will be switched to the computer and the computer will go.
           checkForPairsOnRequest(computerCards, requestCardUser);
-          noHandDeal();
-          console.log(player);
-          console.log(deckID);
-          console.log(userCards);
-          if (player === 'player2') {
-            const randomCardRequestComputer = function(hand) {
-              const randomCardIndex = Math.floor(Math.random() * hand.length);
-              const requestCardComputer = {
-                value: hand[randomCardIndex].value,
-                image: hand[randomCardIndex].image
-              }
-              Materialize.toast(`Do you have a ${value}?`, 6000);
-            };
-          }
-          noHandDeal();
+          // console.log(remainingCardsInDeck);
+          console.log('currentplayer', player);
+          // console.log(deckID);
+          // console.log(userCards);
+          // if (player === 'player2') {
+          //   requestCardComputer = randomCardRequest();
+          // //   $('#goFish').on('click', () => {
+          // //     goFish(computerCards);
+          // //     console.log('currentplayer', player);
+          // //   });
+          // //   // console.log(player);
+          // }
+          // noHandDeal();
           // No click event to switch players. Need a nested if statement to run computer logic.
           // randomCardRequest fn -- Computer will randomly request a card with a toast.
           // Might need while loops for when the computer to continue going. No click event will trigger this.
-          console.log(remainingCardsInDeck);
-          $('#goFish').on('click', () => {
-            goFish(computerCards);
-          });
         }
-        else if (player === 'player2') {
-          if (remainingCardsInDeck === 0) {
-            if (userScore > computerScore) {
-              Materialize.toast('Congratulations! You won!', 6000);
-            }
-            if (userScore < computerScore) {
-              Materialize.toast('Sorry. You lost. Try again.', 6000);
-            }
+        if (player === 'player2') {
+          console.log(event.target);
+          // requestCardComputer = randomCardRequest();
+          // const requestCard = randomCardRequest();
+          console.log('computer request', computerCardRequest);
+          // checkForPairsOnRequest(userCards, computerCardRequest);
+          const userCardToGive = {
+            image: event.target.src,
+            value: event.target.alt
           }
-          console.log('Hello');
-          checkForPairsOnRequest(userCards, requestCard);
-          $('#goFish').off('click', () => {
-            goFish(computerCards);
-          });
+          console.log('user click', userCardToGive.value);
+          console.log('computer request', computerCardRequest);
+          if (userCardToGive.value === computerCardRequest.value) {
+            const computerHandFiltered = computerCards.filter((card) => {
+              return card.value !== computerCardRequest.value;
+            });
+            const userHandFiltered = userCards.filter((card) => {
+              return card.value !== computerCardRequest.value;
+            });
+            // if (userHandFiltered.length === hand.length) {
+            //   $('#goFish').on('click', () => {
+            //     goFish(computerCards, switchPlayer);
+            //   });
+            // }
+            userCards = userHandFiltered;
+            computerCards = computerHandFiltered;
+            renderComputerCards();
+            renderUserCards();
+            computerScore += 1;
+            $('#computerScore').text(`Pair: ${computerScore}`);
+          }
+          noHandDeal();
+          console.log('currentplayer', player);
+          if (player === 'player2') {
+            computerCardRequest = randomCardRequest();
+          }
+          // console.log(player);
+          // $('#goFish').off('click', () => {
+          //   goFish(computerCards);
+          // });
           // The user will click on the card that they have that matches. This will trigger the high level click event and this time the user will be the computer. It will run the logic accordingly: take both cards from the corresponding hands add a point for the computer and the computer will go again. No player switch.
           // randomCardRequest fn -- Randomly select another card and toast again.
           // Go Fish! fn
