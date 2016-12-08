@@ -18,66 +18,147 @@
 
 #user {
   /*height: 33%;*/
-  margin-top: 50px;
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
 
 #computer {
   /*height: 33%;*/
-  margin-bottom: 50px;
+  margin-top: 25px;
 }
 
 #game {
+  display: inline-block;
   height: auto;
   position: relative;
 }
 
 #goFish {
-  background-color: coral;
-  border: 5px groove darkorange;
+  background-color: cadetblue;
+  border: 20px groove midnightblue;
   border-radius: 50%;
   border-style: groove;
-  height: 300px;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 30px;
+  /*gradient*/
+  height: 150px;
   position: absolute;
-  right: 300px;
-  top: 10px;
-  width: 300px;
+  right: 39vw;
+  top: 0px;
+  width: 150px;
 }
 
 #deck {
-  border-radius: 30px;
-  height: 314px;
+  border-radius: 8px;
+  height: 120px;
+  left: 22vw;
   position: relative;
-  left: 100px;
-  width: 226px;
+  top: 20px;
+  width: 90px;
 }
 
 .imgCardBack {
-  border-radius: 30px;
-  height: 314px;
-  width: 226px;
+  border-radius: 8px;
+  height: 300px;
+  width: 80px;
 }
 /*.imgCard {
   height: 100px;
 }*/
 
 .score {
-  border: 1px solid darkorange;
-  display: inline-block;
+  /*border: 1px solid darkorange;*/
+  /*display: inline-block;*/
+  font-family: 'Luckiest Guy', cursive;
+  /*margin-bottom: 0;
   margin-left: 100px;
+  margin-top: 10px;*/
 }
 
 .player {
-  border: 1px solid darkorange;
-  display: inline-block;
-  margin-left: 170px;
+  /*border: 1px solid darkorange;*/
+  /*display: inline-block;*/
+  font-family: 'Luckiest Guy', cursive;
+  /*margin-bottom: 0;*/
+  /*margin-left: 170px;*/
+  /*margin-top: 10px;*/
 }
 
+.playerCard {
+  height: 200px;
+  width: 80px;
+}
+
+.button {
+  /*display: flex;
+  justify-content: center;
+  align-items: center;*/
+  height: 120px;
+}
+
+.flash {
+  /*color: #FFDD1B;*/
+  font-family: 'Luckiest Guy', cursive;
+  -webkit-animation: neon3;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-duration: 1s;
+  -moz-animation: neon3;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-duration: 1s;
+  animation: neon3;
+  animation-iteration-count: 1;
+  animation-duration: 1s;
+}
+
+/*.turn {
+  font: purple;
+
+}*/
+
 body {
-  background: url("../images/ocean_background.jpg");
-  background-size: cover;
-  /*height: 100vh;*/
+  /*background: url("../images/ocean_background.jpg");*/
+  /*background-size: cover;*/
+  background-color: #0C656A;
+  /*max-height: 100vh;*/
+}
+
+main {
+  max-height: 100vh;
+  display: flex;
+  flex-flow: column;
+}
+
+main div {
+  flex-grow: 1;
 }
 
 * {
   box-sizing: border-box;
+}
+
+@-webkit-keyframes neon3 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px black, 0 0 70px #FFDD1B, 0 0 80px #FFDD1B, 0 0 100px black, 0 0 150px black;
+  }
+  /*to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFDD1B, 0 0 35px #FFDD1B, 0 0 40px #FFDD1B, 0 0 50px #FFDD1B, 0 0 75px #FFDD1B;
+  }*/
+}
+
+@-moz-keyframes neon3 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px black, 0 0 70px #FFDD1B, 0 0 80px black, 0 0 100px black, 0 0 150px black;
+  }
+  /*to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFDD1B, 0 0 35px #FFDD1B, 0 0 40px #FFDD1B, 0 0 50px #FFDD1B, 0 0 75px #FFDD1B;
+  }*/
+}
+
+@keyframes neon3 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px black, 0 0 70px #FFDD1B, 0 0 80px black, 0 0 100px black, 0 0 150px black;
+  }
+  /*to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFDD1B, 0 0 35px #FFDD1B, 0 0 40px #FFDD1B, 0 0 50px #FFDD1B, 0 0 75px #FFDD1B;
+  }*/
 }
