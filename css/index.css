@@ -28,9 +28,15 @@
 }
 
 #game {
-  display: inline-block;
-  height: auto;
-  position: relative;
+  /*display: inline-block;*/
+  /*height: auto;*/
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /*flex-direction: column;*/
+  /*position: relative;*/
+  margin: 0 auto;
+  max-width: 300px;
 }
 
 #goFish {
@@ -42,18 +48,23 @@
   font-size: 30px;
   /*gradient*/
   height: 150px;
-  position: absolute;
-  right: 39vw;
-  top: 0px;
+  /*margin-right: 35%;*/
+  /*position: absolute;*/
+  /*right: 39vw;*/
+  /*top: 0px;*/
   width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #deck {
   border-radius: 8px;
   height: 120px;
-  left: 22vw;
-  position: relative;
-  top: 20px;
+  /*left: 22vw;*/
+  /*margin-left: 70%;*/
+  /*position: relative;*/
+  /*top: 20px;*/
   width: 90px;
 }
 
@@ -71,8 +82,8 @@
   /*display: inline-block;*/
   font-family: 'Luckiest Guy', cursive;
   /*margin-bottom: 0;
-  margin-left: 100px;
-  margin-top: 10px;*/
+  /*margin-left: 100px;*/
+  /*margin-top: 30px;*/
 }
 
 .player {
@@ -81,7 +92,7 @@
   font-family: 'Luckiest Guy', cursive;
   /*margin-bottom: 0;*/
   /*margin-left: 170px;*/
-  /*margin-top: 10px;*/
+  /*margin-top: 30px;*/
 }
 
 .playerCard {
@@ -94,6 +105,12 @@
   justify-content: center;
   align-items: center;*/
   height: 120px;
+}
+
+.fish {
+  /*display: flex;
+  justify-content: center;
+  align-items: center;*/
 }
 
 .flash {
