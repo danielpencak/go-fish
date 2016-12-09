@@ -118,26 +118,7 @@
         }
       };
 
-      const randomCardRequest = function() {
-        if(remainingCardsInDeck === 0) {
-          return;
-        }
-        console.log(remainingCardsInDeck);
-        // checkForGameEnd();
-        // dealNewHand(checkForGameEnd);
-        console.log('Hello');
-        const randomCardIndex = Math.floor(Math.random() * computerCards.length);
-        const randomComputerCardRequest = {
-          value: computerCards[randomCardIndex].value,
-          image: computerCards[randomCardIndex].image
-        };
-
-        Materialize.toast(`Do you have a ${randomComputerCardRequest.value}?`, 3000);
-
-        return randomComputerCardRequest;
-      };
-
-      const dealNewHand = ((callback, callback2) => {
+      const dealNewHand = ((callback) => {
         if (remainingCardsInDeck > 1) {
           if (userCards.length === 0) {
             const $xhr4 = $.ajax({
@@ -155,7 +136,6 @@
 
               // checkForGameEnd();
               console.log(remainingCardsInDeck);
-              callback();
               userCards = data4.cards.map((card) => {
                 return {
                   value: card.value,
@@ -210,6 +190,7 @@
 
               // checkOwnHandForPairs(computerCards);
               renderUserCards();
+              callback();
               if (userCards.length === 0 || computerCards.length === 0) {
                 return true;
               }
@@ -235,7 +216,6 @@
 
               // checkForGameEnd();
               console.log(remainingCardsInDeck);
-              callback();
               computerCards = data5.cards.map((card) => {
                 return {
                   value: card.value,
@@ -291,7 +271,7 @@
 
               // checkOwnHandForPairs(computerCards);
               renderComputerCards();
-              callback2();
+              callback();
               if (userCards.length === 0 || computerCards.length === 0) {
                 return true;
               }
@@ -319,7 +299,6 @@
 
               // checkForGameEnd();
               console.log(remainingCardsInDeck);
-              callback();
               userCards = data6.cards.map((card) => {
                 return {
                   value: card.value,
@@ -373,6 +352,7 @@
               setTimeout(removeFlashUser, 500);
               // checkOwnHandForPairs(computerCards);
               renderUserCards();
+              callback();
               if (userCards.length === 0 || computerCards === 0) {
                 return true;
               }
@@ -400,7 +380,6 @@
 
               // checkForGameEnd();
               console.log(remainingCardsInDeck);
-              callback();
               computerCards = data7.cards.map((card) => {
                 return {
                   value: card.value,
@@ -455,7 +434,7 @@
               setTimeout(removeFlashComputer, 500);
               // checkOwnHandForPairs(computerCards);
               renderComputerCards();
-              callback2();
+              callback();
               if (userCards.length === 0 || computerCards === 0) {
                 return true;
               }
@@ -467,6 +446,30 @@
           }
         }
       });
+
+      const randomCardRequest = function() {
+        if (remainingCardsInDeck === 0) {
+          return;
+        }
+        if (computerCards.length === 0) {
+          dealNewHand(checkForGameEnd);
+        }
+        else {
+          console.log(remainingCardsInDeck);
+          // checkForGameEnd();
+          // dealNewHand(checkForGameEnd);
+          console.log('Hello');
+          const randomCardIndex = Math.floor(Math.random() * computerCards.length);
+          const randomComputerCardRequest = {
+            value: computerCards[randomCardIndex].value,
+            image: computerCards[randomCardIndex].image
+          };
+
+          Materialize.toast(`Do you have a ${randomComputerCardRequest.value}?`, 3000);
+
+          return randomComputerCardRequest;
+        }
+      };
 
       const checkOwnHandForPairs = ((hand, callback) => {
         const handValues = hand.map((card) => {
@@ -541,29 +544,29 @@
         else {
           if (hand === userCards) {
             userScore += 1;
-            $('#userScore').text(`Pair: ${userScore}`).addClass('flash');
+            $('#userScore').text(`Pairs: ${userScore}`).addClass('flash');
             setTimeout(removeFlashUser, 500);
             userCards = handFiltered;
             renderUserCards();
             checkForGameEnd();
-            dealNewHand(checkForGameEnd, randomCardRequest);
+            dealNewHand(checkForGameEnd);
           }
           if (hand === computerCards) {
             computerScore += 1;
-            $('#computerScore').text(`Pair: ${computerScore}`);
+            $('#computerScore').text(`Pairs: ${computerScore}`);
             $('#computerScore').addClass('flash');
             setTimeout(removeFlashComputer, 500);
             computerCards = handFiltered;
             renderComputerCards();
             checkForGameEnd();
-            dealNewHand(checkForGameEnd, randomCardRequest);
+            dealNewHand(checkForGameEnd);
           }
         }
       };
 
       const switchPlayer = function() {
         checkForGameEnd();
-        dealNewHand(checkForGameEnd, randomCardRequest);
+        dealNewHand(checkForGameEnd);
         console.log('player before switch', player);
         if (player === 'player1') {
           player = 'player2';
@@ -629,12 +632,13 @@
           userCards = userHandFiltered;
           computerCards = computerHandFiltered;
           userScore += 1;
-          $('#userScore').text(`Pair: ${userScore}`).addClass('flash');
+          $('#userScore').text(`Pairs: ${userScore}`).addClass('flash');
           setTimeout(removeFlashUser, 500);
           renderComputerCards();
           renderUserCards();
           checkForGameEnd();
-          dealNewHand(checkForGameEnd, randomCardRequest);
+          dealNewHand(checkForGameEnd);
+          checkForGameEnd();
         }
 
         // }
@@ -654,7 +658,7 @@
         console.log('currentplayer', player);
         if (player === 'player1') {
           checkForGameEnd();
-          dealNewHand(checkForGameEnd, randomCardRequest);
+          dealNewHand(checkForGameEnd);
           // checkForGameEnd();
           const requestCardUser = {
             image: event.target.src,
@@ -693,13 +697,15 @@
             //     goFish(computerCards, switchPlayer);
             //   });
             // }
-            dealNewHand(checkForGameEnd, randomCardRequest);
+            checkForGameEnd();
+            dealNewHand(checkForGameEnd);
+            checkForGameEnd();
             userCards = userHandFiltered;
             computerCards = computerHandFiltered;
             renderComputerCards();
             renderUserCards();
             computerScore += 1;
-            $('#computerScore').text(`Pair:${computerScore}`);
+            $('#computerScore').text(`Pairs: ${computerScore}`);
             $('#computerScore').addClass('flash');
             setTimeout(removeFlashComputer, 500);
           }
@@ -707,7 +713,8 @@
           // dealNewHand();
           console.log('currentplayer', player);
           if (player === 'player2') {
-            dealNewHand(checkForGameEnd, randomCardRequest);
+            checkForGameEnd();
+            dealNewHand(checkForGameEnd);
             computerCardRequest = randomCardRequest();
           }
 
