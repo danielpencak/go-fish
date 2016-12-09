@@ -2,7 +2,6 @@
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  /*height: 100vh;*/
   justify-content: center;
   height: auto;
 }
@@ -11,30 +10,23 @@
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  /*height: 100vh;*/
   justify-content: center;
   height: auto;
 }
 
 #user {
-  /*height: 33%;*/
   margin-bottom: 0px;
   margin-top: 0px;
 }
 
 #computer {
-  /*height: 33%;*/
   margin-top: 25px;
 }
 
 #game {
-  /*display: inline-block;*/
-  /*height: auto;*/
   display: flex;
   justify-content: space-around;
   align-items: center;
-  /*flex-direction: column;*/
-  /*position: relative;*/
   margin: 0 auto;
   max-width: 300px;
 }
@@ -48,10 +40,6 @@
   font-size: 30px;
   /*gradient*/
   height: 150px;
-  /*margin-right: 35%;*/
-  /*position: absolute;*/
-  /*right: 39vw;*/
-  /*top: 0px;*/
   width: 150px;
   display: flex;
   justify-content: center;
@@ -61,10 +49,6 @@
 #deck {
   border-radius: 8px;
   height: 120px;
-  /*left: 22vw;*/
-  /*margin-left: 70%;*/
-  /*position: relative;*/
-  /*top: 20px;*/
   width: 90px;
 }
 
@@ -73,26 +57,13 @@
   height: 300px;
   width: 80px;
 }
-/*.imgCard {
-  height: 100px;
-}*/
 
 .score {
-  /*border: 1px solid darkorange;*/
-  /*display: inline-block;*/
   font-family: 'Luckiest Guy', cursive;
-  /*margin-bottom: 0;
-  /*margin-left: 100px;*/
-  /*margin-top: 30px;*/
 }
 
 .player {
-  /*border: 1px solid darkorange;*/
-  /*display: inline-block;*/
   font-family: 'Luckiest Guy', cursive;
-  /*margin-bottom: 0;*/
-  /*margin-left: 170px;*/
-  /*margin-top: 30px;*/
 }
 
 .playerCard {
@@ -100,21 +71,7 @@
   width: 80px;
 }
 
-.button {
-  /*display: flex;
-  justify-content: center;
-  align-items: center;*/
-  height: 120px;
-}
-
-.fish {
-  /*display: flex;
-  justify-content: center;
-  align-items: center;*/
-}
-
 .flash {
-  /*color: #FFDD1B;*/
   font-family: 'Luckiest Guy', cursive;
   -webkit-animation: neon3;
   -webkit-animation-iteration-count: 1;
@@ -127,26 +84,14 @@
   animation-duration: 1s;
 }
 
-/*.turn {
-  font: purple;
-
-}*/
-
 body {
-  /*background: url("../images/ocean_background.jpg");*/
-  /*background-size: cover;*/
   background-color: #0C656A;
-  /*max-height: 100vh;*/
 }
 
 main {
   max-height: 100vh;
   display: flex;
   flex-flow: column;
-}
-
-main div {
-  flex-grow: 1;
 }
 
 * {
@@ -157,25 +102,16 @@ main div {
   from {
     text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px black, 0 0 70px #FFDD1B, 0 0 80px #FFDD1B, 0 0 100px black, 0 0 150px black;
   }
-  /*to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFDD1B, 0 0 35px #FFDD1B, 0 0 40px #FFDD1B, 0 0 50px #FFDD1B, 0 0 75px #FFDD1B;
-  }*/
 }
 
 @-moz-keyframes neon3 {
   from {
     text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px black, 0 0 70px #FFDD1B, 0 0 80px black, 0 0 100px black, 0 0 150px black;
   }
-  /*to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFDD1B, 0 0 35px #FFDD1B, 0 0 40px #FFDD1B, 0 0 50px #FFDD1B, 0 0 75px #FFDD1B;
-  }*/
 }
 
 @keyframes neon3 {
   from {
     text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px black, 0 0 70px #FFDD1B, 0 0 80px black, 0 0 100px black, 0 0 150px black;
   }
-  /*to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFDD1B, 0 0 35px #FFDD1B, 0 0 40px #FFDD1B, 0 0 50px #FFDD1B, 0 0 75px #FFDD1B;
-  }*/
 }

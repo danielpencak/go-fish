@@ -41,6 +41,7 @@
         return;
       }
       let player = 'player1';
+
       $('#userTurn').attr('style', 'color: purple');
       remainingCardsInDeck -= 5;
       computerCards = data2.cards.map((computerCard) => {
@@ -86,7 +87,9 @@
         if (remainingCardsInDeck === 0) {
           const $spanComputer = $('#computerCards');
           const $spanUser = $('#userCards');
+
           console.log('hello');
+
           // const $spanCardDeck = $('#cardDeck');
 
           // $spanCardDeck.empty();
@@ -112,13 +115,14 @@
           }
           $spanComputer.empty();
           $spanUser.empty();
-
-          return;
         }
-
       };
 
       const randomCardRequest = function() {
+        if(remainingCardsInDeck === 0) {
+          return;
+        }
+        console.log(remainingCardsInDeck);
         // checkForGameEnd();
         // dealNewHand(checkForGameEnd);
         console.log('Hello');
@@ -148,6 +152,7 @@
                 return;
               }
               remainingCardsInDeck -= computerCards.length;
+
               // checkForGameEnd();
               console.log(remainingCardsInDeck);
               callback();
@@ -202,6 +207,7 @@
               userScore += (sortCardsToDelete.length) / 2;
               $('#userScore').text(`Pairs: ${userScore}`).addClass('flash');
               setTimeout(removeFlashUser, 500);
+
               // checkOwnHandForPairs(computerCards);
               renderUserCards();
               if (userCards.length === 0 || computerCards.length === 0) {
@@ -282,6 +288,7 @@
               $('#computerScore').text(`Pairs: ${computerScore}`);
               $('#computerScore').addClass('flash');
               setTimeout(removeFlashComputer, 500);
+
               // checkOwnHandForPairs(computerCards);
               renderComputerCards();
               callback2();
@@ -662,7 +669,6 @@
         }
         if (player === 'player2') {
           checkForGameEnd();
-          dealNewHand(checkForGameEnd, randomCardRequest);
           // console.log(remainingCardsInDeck);
           // checkForGameEnd();
           console.log(event.target);
@@ -687,6 +693,7 @@
             //     goFish(computerCards, switchPlayer);
             //   });
             // }
+            dealNewHand(checkForGameEnd, randomCardRequest);
             userCards = userHandFiltered;
             computerCards = computerHandFiltered;
             renderComputerCards();
