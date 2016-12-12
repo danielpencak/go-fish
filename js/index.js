@@ -51,15 +51,15 @@
         };
       });
 
-      const removeFlashUser = function() {
+      const removeFlashUser = (() => {
         $('#userScore').removeClass('flash');
-      };
+      });
 
-      const removeFlashComputer = function() {
+      const removeFlashComputer = (() => {
         $('#computerScore').removeClass('flash');
-      };
+      });
 
-      const renderComputerCards = function() {
+      const renderComputerCards = (() => {
         const $span = $('#computerCards');
 
         $span.empty();
@@ -69,9 +69,9 @@
           $img.attr({ alt: 'Card', src: 'images/card_back.jpg' });
           $span.append($img);
         }
-      };
+      });
 
-      const renderUserCards = function() {
+      const renderUserCards = (() => {
         const $span = $('#userCards');
 
         $span.empty();
@@ -81,18 +81,13 @@
           $img.attr({ alt: `${userCard.value}`, src: `${userCard.image}` });
           $span.append($img);
         }
-      };
+      });
 
-      const checkForGameEnd = function() {
+      const checkForGameEnd = (() => {
         if (remainingCardsInDeck === 0) {
           const $spanComputer = $('#computerCards');
           const $spanUser = $('#userCards');
 
-          console.log('hello');
-
-          // const $spanCardDeck = $('#cardDeck');
-
-          // $spanCardDeck.empty();
           if (player === 'player2') {
             userScore += computerCards.length;
             $('#userScore').text(`Pairs: ${userScore}`).addClass('flash');
@@ -116,7 +111,7 @@
           $spanComputer.empty();
           $spanUser.empty();
         }
-      };
+      });
 
       const dealNewHand = ((callback) => {
         if (remainingCardsInDeck > 1) {
@@ -133,9 +128,6 @@
                 return;
               }
               remainingCardsInDeck -= computerCards.length;
-
-              // checkForGameEnd();
-              console.log(remainingCardsInDeck);
               userCards = data4.cards.map((card) => {
                 return {
                   value: card.value,
@@ -161,7 +153,6 @@
                   cardsFound[value] = 1;
                 }
               }
-              console.log(cardsFound);
               const cardsToDelete = [];
 
               for (let i = 0; i < handValues.length; i++) {
@@ -188,7 +179,6 @@
               $('#userScore').text(`Pairs: ${userScore}`).addClass('flash');
               setTimeout(removeFlashUser, 500);
 
-              // checkOwnHandForPairs(computerCards);
               renderUserCards();
               callback();
               if (userCards.length === 0 || computerCards.length === 0) {
@@ -214,8 +204,6 @@
               }
               remainingCardsInDeck -= userCards.length;
 
-              // checkForGameEnd();
-              console.log(remainingCardsInDeck);
               computerCards = data5.cards.map((card) => {
                 return {
                   value: card.value,
@@ -241,7 +229,6 @@
                   cardsFound[value] = 1;
                 }
               }
-              console.log(cardsFound);
               const cardsToDelete = [];
 
               for (let i = 0; i < handValues.length; i++) {
@@ -269,7 +256,6 @@
               $('#computerScore').addClass('flash');
               setTimeout(removeFlashComputer, 500);
 
-              // checkOwnHandForPairs(computerCards);
               renderComputerCards();
               callback();
               if (userCards.length === 0 || computerCards.length === 0) {
@@ -297,8 +283,6 @@
               }
               remainingCardsInDeck = 0;
 
-              // checkForGameEnd();
-              console.log(remainingCardsInDeck);
               userCards = data6.cards.map((card) => {
                 return {
                   value: card.value,
@@ -324,7 +308,6 @@
                   cardsFound[value] = 1;
                 }
               }
-              console.log(cardsFound);
               const cardsToDelete = [];
 
               for (let i = 0; i < handValues.length; i++) {
@@ -350,7 +333,6 @@
               userScore += (sortCardsToDelete.length) / 2;
               $('#userScore').text(`Pairs: ${userScore}`).addClass('flash');
               setTimeout(removeFlashUser, 500);
-              // checkOwnHandForPairs(computerCards);
               renderUserCards();
               callback();
               if (userCards.length === 0 || computerCards === 0) {
@@ -378,8 +360,6 @@
               }
               remainingCardsInDeck = 0;
 
-              // checkForGameEnd();
-              console.log(remainingCardsInDeck);
               computerCards = data7.cards.map((card) => {
                 return {
                   value: card.value,
@@ -405,7 +385,6 @@
                   cardsFound[value] = 1;
                 }
               }
-              console.log(cardsFound);
               const cardsToDelete = [];
 
               for (let i = 0; i < handValues.length; i++) {
@@ -432,7 +411,6 @@
               $('#computerScore').text(`Pairs: ${computerScore}`);
               $('#computerScore').addClass('flash');
               setTimeout(removeFlashComputer, 500);
-              // checkOwnHandForPairs(computerCards);
               renderComputerCards();
               callback();
               if (userCards.length === 0 || computerCards === 0) {
@@ -447,7 +425,7 @@
         }
       });
 
-      const randomCardRequest = function() {
+      const randomCardRequest = (() => {
         if (remainingCardsInDeck === 0) {
           return;
         }
@@ -455,10 +433,6 @@
           dealNewHand(checkForGameEnd);
         }
         else {
-          console.log(remainingCardsInDeck);
-          // checkForGameEnd();
-          // dealNewHand(checkForGameEnd);
-          console.log('Hello');
           const randomCardIndex = Math.floor(Math.random() * computerCards.length);
           const randomComputerCardRequest = {
             value: computerCards[randomCardIndex].value,
@@ -469,7 +443,7 @@
 
           return randomComputerCardRequest;
         }
-      };
+      });
 
       const checkOwnHandForPairs = ((hand, callback) => {
         const handValues = hand.map((card) => {
@@ -490,7 +464,6 @@
             cardsFound[value] = 1;
           }
         }
-        console.log(cardsFound);
         const cardsToDelete = [];
 
         for (let i = 0; i < handValues.length; i++) {
@@ -531,7 +504,7 @@
         renderComputerCards();
       });
 
-      const checkForPairsOnDraw = function(hand, cardCompare) {
+      const checkForPairsOnDraw = ((hand, cardCompare) => {
         const handFiltered = hand.filter((card) => {
           return card.value !== cardCompare[0].value;
         });
@@ -562,26 +535,23 @@
             dealNewHand(checkForGameEnd);
           }
         }
-      };
+      });
 
-      const switchPlayer = function() {
+      const switchPlayer = (() => {
         checkForGameEnd();
         dealNewHand(checkForGameEnd);
-        console.log('player before switch', player);
         if (player === 'player1') {
           player = 'player2';
           $('#computerTurn').attr('style', 'color: purple');
           $('#userTurn').attr('style', 'color: black');
           computerCardRequest = randomCardRequest();
-          console.log('player after switch', player);
         }
         else if (player === 'player2') {
           player = 'player1';
           $('#computerTurn').attr('style', 'color: black');
           $('#userTurn').attr('style', 'color: purple');
-          console.log('player after switch', player);
         }
-      };
+      });
 
       const goFish = ((hand, callback) => {
         const $xhr3 = $.ajax({
@@ -595,11 +565,8 @@
           if ($xhr3.status !== 200) {
             return;
           }
-          console.log('xhrDone', player);
           remainingCardsInDeck -= 1;
 
-          // checkForGameEnd();
-          console.log(remainingCardsInDeck);
           callback();
           const drawCard = data3.cards.map((card) => {
             return {
@@ -616,8 +583,7 @@
         });
       });
 
-      const checkForPairsOnRequest = function(hand, cardRequest) {
-        // if (hand === computerCards) {
+      const checkForPairsOnRequest = ((hand, cardRequest) => {
         const userHandFiltered = userCards.filter((card) => {
           return card.value !== cardRequest.value;
         });
@@ -640,9 +606,7 @@
           dealNewHand(checkForGameEnd);
           checkForGameEnd();
         }
-
-        // }
-      };
+      });
 
       checkOwnHandForPairs(computerCards, dealNewHand);
       checkOwnHandForPairs(userCards, dealNewHand);
@@ -651,39 +615,23 @@
         goFish(computerCards, switchPlayer);
       });
       $('#userCards').on('click', '.playerCard', (event) => {
-        // console.log(remainingCardsInDeck);
-        // $('#goFish').off('click', () => {
-        //   goFish(computerCards, switchPlayer);
-        // });
-        console.log('currentplayer', player);
         if (player === 'player1') {
           checkForGameEnd();
           dealNewHand(checkForGameEnd);
-          // checkForGameEnd();
           const requestCardUser = {
             image: event.target.src,
             value: event.target.alt
           };
 
-          console.log(`${player} clicked on ${requestCardUser.value}`);
           checkForPairsOnRequest(computerCards, requestCardUser);
-          console.log('currentplayer', player);
-
-          // dealNewHand();
         }
         if (player === 'player2') {
           checkForGameEnd();
-          // console.log(remainingCardsInDeck);
-          // checkForGameEnd();
-          console.log(event.target);
-          console.log('computer request', computerCardRequest);
           const userCardToGive = {
             image: event.target.src,
             value: event.target.alt
           };
 
-          console.log('user click', userCardToGive.value);
-          console.log('computer request', computerCardRequest);
           if (userCardToGive.value === computerCardRequest.value) {
             const computerHandFiltered = computerCards.filter((card) => {
               return card.value !== computerCardRequest.value;
@@ -692,11 +640,6 @@
               return card.value !== computerCardRequest.value;
             });
 
-            // if (userHandFiltered.length === hand.length) {
-            //   $('#goFish').on('click', () => {
-            //     goFish(computerCards, switchPlayer);
-            //   });
-            // }
             checkForGameEnd();
             dealNewHand(checkForGameEnd);
             checkForGameEnd();
@@ -710,17 +653,11 @@
             setTimeout(removeFlashComputer, 500);
           }
 
-          // dealNewHand();
-          console.log('currentplayer', player);
           if (player === 'player2') {
             checkForGameEnd();
             dealNewHand(checkForGameEnd);
             computerCardRequest = randomCardRequest();
           }
-
-          // $('#goFish').off('click', () => {
-          //   goFish(computerCards);
-          // });
         }
       });
     });
