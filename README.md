@@ -1,6 +1,6 @@
 #Go Fish!
 
-###[Video Demo](https://vimeo.com/195285371)
+###[<img src="/images/gofishsmall.png">](https://vimeo.com/195285371)
 
 ##What problem does it solve?
 
