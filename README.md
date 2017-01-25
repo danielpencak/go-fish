@@ -2,6 +2,8 @@
 
 ###[<img src="/images/gofishsmall.png">](https://vimeo.com/195285371)
 
+Click here to watch a video demo of the game.
+
 ##What problem does it solve?
 
 I'd like an application that is interactive and intellectually stimulating that my toddler son can play while I do chores, exercise, etc.
